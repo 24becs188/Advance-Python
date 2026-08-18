@@ -1,16 +1,36 @@
-import cv2
+from tkinter import Tk, filedialog
+from PIL import Image
 
-# Define the absolute file path to the image on your computer
-# Note: Use forward slashes (/) to avoid path syntax errors in Python
-file_path = r"C:\Users\hi\OneDrive\Documents\Pictures\Screenshots\Screenshot 2026-04-24 211738.png"
-# Read the image file from the path
-img = cv2.imread(file_path)
 
-# Verify if the image was successfully found and loaded
-if img is None:
-    print("Error: Could not open or find the image. Check the file path layout.")
-else:
-    # Display the loaded image in a window
-    cv2.imshow("Loaded Image", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+def load_image_from_explorer():
+    # Hide the main root window of tkinter
+    root = Tk()
+    root.withdraw()
+
+    # Define allowed file types
+    file_types = [("Image Files", "*.jpg *.jpeg *.png *.bmp *.webp")]
+
+    # Open the file explorer and get the selected file path
+    file_path = filedialog.askopenfilename(
+        title="Select an Image",
+        filetypes=file_types
+    )
+
+    # Check if the user selected a file or cancelled
+    if file_path:
+        print(f"Loading image from: {file_path}")
+
+        # Load the image using Pillow
+        img = Image.open(file_path)
+
+        # Display the image on your screen
+        img.show()
+
+        return img
+    else:
+        print("No image was selected.")
+        return None
+
+
+# Run the function
+loaded_image = load_image_from_explorer()
